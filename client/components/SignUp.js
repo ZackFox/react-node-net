@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { signUpRequest } from '../actions/signUp';
 
 class SignUp extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {};
   }
 
   onSend = e => {
     e.preventDefault();
-    console.log('email ' + this.inputEmail.value);
-    console.log('pass ' + this.inputPassword.value);
+    this.props.signUpRequest({
+      email: this.inputEmail.value,
+      username: this.inputUsername.value,
+      password: this.inputPassword.value,
+    });
   };
 
   render() {
@@ -20,13 +24,23 @@ class SignUp extends Component {
           <input
             type="text"
             name="email"
+            placeholder="Email"
             ref={el => {
               this.inputEmail = el;
             }}
           />
           <input
+            type="text"
+            name="username"
+            placeholder="Имя на сайте"
+            ref={el => {
+              this.inputUsername = el;
+            }}
+          />
+          <input
             type="password"
             name="password"
+            placeholder="Пароль"
             ref={el => {
               this.inputPassword = el;
             }}
@@ -38,4 +52,4 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+export default connect(null, { signUpRequest })(SignUp);

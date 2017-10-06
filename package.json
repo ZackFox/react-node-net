@@ -14,17 +14,22 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.16.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
     "express": "^4.15.4",
     "express-session": "^1.15.5",
     "i18n": "^0.8.3",
+    "jsonwebtoken": "^8.0.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^3.0.0",
     "path": "^0.12.7",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
@@ -60,6 +65,7 @@
     "extends": ["airbnb", "prettier"],
     "plugins": ["react", "jsx-a11y", "import"],
     "rules": {
+      "import/prefer-default-export": "off",
       "react/jsx-filename-extension": "off",
       "react/prefer-stateless-function": "off"
     }
