@@ -1,32 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { signUpRequest } from '../actions/signUp';
+// import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { signUp } from '../actions/authActions';
 
-class SignUp extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  onSend = e => {
+class SignUpPage extends Component {
+  onSignUp = e => {
     e.preventDefault();
-    this.props.signUpRequest({
-      email: this.inputEmail.value,
-      username: this.inputUsername.value,
-      password: this.inputPassword.value,
+    this.props.signUp({
+      email: this.email.value,
+      username: this.username.value,
+      password: this.password.value,
     });
   };
 
   render() {
     return (
       <div>
-        <form onSubmit={this.onSend}>
+        <form onSubmit={this.onSignUp}>
           <input
             type="text"
             name="email"
             placeholder="Email"
             ref={el => {
-              this.inputEmail = el;
+              this.email = el;
             }}
           />
           <input
@@ -34,7 +31,7 @@ class SignUp extends Component {
             name="username"
             placeholder="Имя на сайте"
             ref={el => {
-              this.inputUsername = el;
+              this.username = el;
             }}
           />
           <input
@@ -42,14 +39,18 @@ class SignUp extends Component {
             name="password"
             placeholder="Пароль"
             ref={el => {
-              this.inputPassword = el;
+              this.password = el;
             }}
           />
-          <input type="submit" value="войти" />
+          <input type="submit" value="Зарегистрироваться" />
         </form>
       </div>
     );
   }
 }
 
-export default connect(null, { signUpRequest })(SignUp);
+SignUpPage.propTypes = {
+  signUp: PropTypes.func.isRequired,
+};
+
+export default connect(null, { signUp })(SignUpPage);
