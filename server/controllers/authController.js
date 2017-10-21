@@ -1,5 +1,7 @@
-import User from '../models/User';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+
+import User from '../models/User';
 import config from '../config/config';
 
 const authController = {};
@@ -22,17 +24,20 @@ authController.signIn = (req, res) => {
   const { email, password } = req.body;
 
   if (email === '' || password === '') {
-    return res
-      .status(401)
-      .json({ message: "Email and password can't be blank" });
+    res.status(401).json({ message: "Email and password can't be blank" });
+    return;
   }
 
-  User.findOne({ email })
-    .then(user => {
-      if (!user.isValidPassword(password)) {
-        return res.status(403).json({ message: 'password is wrong' });
+  User.aggregate(
+    { $match: { email } },
+    { $project: { email: 1, passwordHash: 1 } }
+  )
+    .then(result => {
+      const user = result[0];
+      if (!bcrypt.compareSync(password, user.passwordHash)) {
+        res.status(403).json({ message: 'password is wrong' });
+        return;
       }
-
       const token = jwt.sign(
         { id: user._id, email: user.email },
         config.secretKey,
@@ -41,9 +46,9 @@ authController.signIn = (req, res) => {
         }
       );
 
-      return res
+      res
         .status(200)
-        .json({ message: 'authentication has succeed', token });
+        .json({ message: 'authentication has succeed', token, user });
     })
     .catch(() => res.status(401).json({ message: 'user not found' }));
 };

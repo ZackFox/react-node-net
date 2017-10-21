@@ -17,14 +17,13 @@ export const signUp = userData => dispatch => {
 export const signIn = userData => dispatch => {
   axios
     .post('/api/v1/signin', userData)
-    .then(result => {
-      console.log(result.data);
-      cookie.save('token', result.data.token, { path: '/' });
+    .then(response => {
+      cookie.save('token', response.data.token, { path: '/' });
       dispatch({ type: 'AUTH_USER' });
-
-      // HERE WILL REDIRECT
+      // dispatch({ type: 'GET_USER' });
     })
     .catch(err => {
+      console.log(err);
       const { message } = err.response.data;
       dispatch({ type: 'AUTH_ERROR', message });
     });

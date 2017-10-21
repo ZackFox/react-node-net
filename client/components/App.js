@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Home from './Home';
+import HomePage from './HomePage';
 import SignUpPage from './SignUpPage';
+import NotFoundPage from './NotFoundPage';
 
 export default class App extends Component {
   render() {
     return (
-      <Switch>
-        <Route path="/" component={Home} exact />
-        <Route path="/signup" component={SignUpPage} />
-      </Switch>
+      <div>
+        <Switch>
+          <Route path="/" component={HomePage} exact />
+          <Route path="/signup" component={SignUpPage} />
+          <Route path="*" component={NotFoundPage} />
+        </Switch>
+      </div>
     );
   }
 }

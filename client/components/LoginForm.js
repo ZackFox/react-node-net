@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { signIn } from '../actions/authActions';
 
-class SignIn extends Component {
+class LoginForm extends Component {
   onSignUp = () => {
     this.props.signIn({
       email: this.email.value,
@@ -14,7 +15,6 @@ class SignIn extends Component {
   render() {
     return (
       <div>
-        <p>Войти</p>
         <form onSubmit={this.onSend}>
           <input
             type="text"
@@ -33,6 +33,8 @@ class SignIn extends Component {
           <p className="errorMessage">{this.props.message}</p>
           <input type="button" onClick={this.onSignUp} value="войти" />
         </form>
+        <Link to="/signup">Регистрация</Link>
+        <Link to="/pass">Забыл пароль</Link>
       </div>
     );
   }
@@ -40,4 +42,8 @@ class SignIn extends Component {
 
 const mapStateToProps = state => ({ message: state.auth.message });
 
-export default connect(mapStateToProps, { signIn })(SignIn);
+LoginForm.propTypes = {
+  signIn: PropTypes.func.isRequired,
+};
+
+export default connect(mapStateToProps, { signIn })(LoginForm);

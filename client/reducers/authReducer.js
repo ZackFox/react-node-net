@@ -1,13 +1,13 @@
-const initialState = { errors: '', message: '', authenticated: false };
+const initialState = { errors: '', message: '', isAuthenticated: false };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'AUTH_USER':
-      return { ...state, authenticated: true };
+      return { ...state, isAuthenticated: true };
     case 'AUTH_ERROR':
       return { ...state, message: action.message };
     case 'UNAUTH_USER':
-      return { ...state, authenticated: false };
+      return { ...state, isAuthenticated: false };
     default:
       return state;
   }

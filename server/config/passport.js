@@ -8,9 +8,13 @@ options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 options.secretOrKey = config.secretKey;
 
 passport.use(
-  new JwtStrategy(options, (jwt_payload, done) => {
-    User.findOne({ id: jwt_payload.id })
-      .then(user => done(null, user))
+  'jwt',
+  new JwtStrategy(options, (payload, done) => {
+    User.aggregate({ $match: { _id: payload.id } })
+      .then(result => {
+        const user = result[0];
+        done(null, user);
+      })
       .catch(err => done(err, false, { message: ' !!!!!' }));
   })
 );
