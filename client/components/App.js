@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import HomePage from './HomePage';
+import HomeContainer from './HomeContainer';
 import SignUpPage from './SignUpPage';
-import NotFoundPage from './NotFoundPage';
+// import ProfilePage from './profile/ProfilePage';
 
 export default class App extends Component {
   render() {
     return (
       <div>
         <Switch>
-          <Route path="/" component={HomePage} exact />
           <Route path="/signup" component={SignUpPage} />
-          <Route path="*" component={NotFoundPage} />
+          <Route path="/" component={HomeContainer} />
         </Switch>
       </div>
     );

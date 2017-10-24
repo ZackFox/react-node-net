@@ -16,22 +16,37 @@ class LoginForm extends Component {
     return (
       <div>
         <form onSubmit={this.onSend}>
-          <input
-            type="text"
-            name="email"
-            ref={el => {
-              this.email = el;
-            }}
-          />
-          <input
-            type="password"
-            name="password"
-            ref={el => {
-              this.password = el;
-            }}
-          />
-          <p className="errorMessage">{this.props.message}</p>
-          <input type="button" onClick={this.onSignUp} value="войти" />
+          <div className="form-group">
+            <input
+              type="text"
+              name="email"
+              className="form-control"
+              placeholder="Email"
+              ref={el => {
+                this.email = el;
+              }}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              name="password"
+              className="form-control"
+              placeholder="Пароль"
+              ref={el => {
+                this.password = el;
+              }}
+            />
+          </div>
+          <div className="form-group">
+            <p className="errorMessage">{this.props.message}</p>
+            <input
+              type="button"
+              className="btn btn-success"
+              onClick={this.onSignUp}
+              value="войти"
+            />
+          </div>
         </form>
         <Link to="/signup">Регистрация</Link>
         <Link to="/pass">Забыл пароль</Link>

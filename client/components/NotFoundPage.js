@@ -1,3 +1,3 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export default () =>  <div> PAGE NOT FOUND 404 </div>;
+export default () => <div> PAGE NOT FOUND 404 </div>;

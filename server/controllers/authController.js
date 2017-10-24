@@ -24,7 +24,7 @@ authController.signIn = (req, res) => {
   const { email, password } = req.body;
 
   if (email === '' || password === '') {
-    res.status(401).json({ message: "Email and password can't be blank" });
+    res.status(401).json({ message: 'Email и пароль должны быть заполнены' });
     return;
   }
 
@@ -35,7 +35,7 @@ authController.signIn = (req, res) => {
     .then(result => {
       const user = result[0];
       if (!bcrypt.compareSync(password, user.passwordHash)) {
-        res.status(403).json({ message: 'password is wrong' });
+        res.status(403).json({ message: 'Пароль неверный' });
         return;
       }
       const token = jwt.sign(
@@ -50,7 +50,9 @@ authController.signIn = (req, res) => {
         .status(200)
         .json({ message: 'authentication has succeed', token, user });
     })
-    .catch(() => res.status(401).json({ message: 'user not found' }));
+    .catch(() =>
+      res.status(401).json({ message: 'Учетная запись не найдена' })
+    );
 };
 
 export default authController;
