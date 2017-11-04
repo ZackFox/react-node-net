@@ -6,10 +6,19 @@ export default (req, res, next) => {
   const token = authHeader ? authHeader.split(' ')[1] : null;
 
   if (token) {
-    const userData = jwt.verify(token, config.secretKey);
-    req.userId = userData.id;
-    next();
+    let userData;
+    try {
+      userData = jwt.verify(token, config.secretKey);
+      req.user = {
+        id: userData.id,
+        username: userData.username,
+        email: userData.email,
+      };
+      next();
+    } catch (err) {
+      res.status(401).json({ message: err.message });
+    }
   } else {
-    res.status(401).json({ msg: 'error' });
+    res.status(401).json({ message: 'token is empty' });
   }
 };

@@ -1,14 +1,14 @@
-import { Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
 
-const ObjectId = Schema.Types.ObjectId;
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
-const PostSchema = new Schema({
-  test: { type: String, required: true },
-  author: { type: ObjectId, ref: 'User' },
+const PostSchema = new mongoose.Schema({
+  text: { type: String, required: true },
+  author: { type: String, required: true },
   reposts: [{ type: ObjectId, ref: 'User' }],
   likes: [{ type: ObjectId, ref: 'User' }],
   comments: [{ type: ObjectId, ref: 'Comment' }],
   createTime: { type: Date, default: Date.now },
 });
 
-export default model('Post', PostSchema);
+export default mongoose.model('Post', PostSchema);

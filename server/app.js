@@ -6,7 +6,6 @@ import webpack from 'webpack';
 import whm from 'webpack-hot-middleware';
 import wdm from 'webpack-dev-middleware';
 import webpackConfig from '../webpack.config';
-import passport from './config/passport';
 import routes from './routes';
 import config from './config/config';
 
@@ -34,7 +33,6 @@ if (process.env.NODE_ENV !== 'production') {
 // ---------------------------------------------------
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(passport.initialize());
 
 app.use('/api/v1', routes);
 app.use('*', (req, res) => {

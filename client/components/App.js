@@ -3,18 +3,19 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-// import HomeContainer from './HomeContainer';
-import SignUpPage from './SignUpPage';
-import NotFoundPage from './NotFoundPage';
 import Header from './templates/Header';
 import WelcomePage from './home/WelcomePage';
 import Dashboard from './home/Dashboard';
+import SignUpPage from './SignUpPage';
 import ProfilePage from './profile/ProfilePage';
+
+import NotFoundPage from './NotFoundPage';
 
 class App extends Component {
   render() {
     const { location, isAuthenticated } = this.props;
-    let header = <Header />;
+    let header = <Header isAuthenticated={isAuthenticated} />;
+
     if (location.pathname === '/' && !isAuthenticated) {
       header = null;
     } else if (location.pathname === '/signup') {
@@ -30,8 +31,8 @@ class App extends Component {
             exact
             component={isAuthenticated ? Dashboard : WelcomePage}
           />
-          <Route path="/profile" component={ProfilePage} />
           <Route path="/signup" component={SignUpPage} />
+          <Route path="/:profileName" component={ProfilePage} />
           <Route path="*" component={NotFoundPage} />
         </Switch>
       </div>
@@ -44,6 +45,7 @@ const mapStateToProps = state => ({
 });
 
 App.propTypes = {
+  location: PropTypes.shape({}).isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
 };
 

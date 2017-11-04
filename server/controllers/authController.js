@@ -30,7 +30,7 @@ authController.signIn = (req, res) => {
 
   User.aggregate(
     { $match: { email } },
-    { $project: { email: 1, passwordHash: 1 } }
+    { $project: { email: 1, passwordHash: 1, username: 1 } }
   )
     .then(result => {
       const user = result[0];
@@ -39,7 +39,7 @@ authController.signIn = (req, res) => {
         return;
       }
       const token = jwt.sign(
-        { id: user._id, email: user.email },
+        { id: user._id, email: user.email, username: user.username },
         config.secretKey,
         {
           expiresIn: 10000,

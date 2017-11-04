@@ -35,3 +35,32 @@ h3 {
 .errorMessage {
   color: red;
 }
+
+.profile-card {
+  background: #fff;
+  padding: 10px;
+}
+
+.userpic {
+  width: 90px;
+  float: left;
+}
+
+.userpic img {
+  width: 100%;
+}
+
+.profile-card-stats {
+  float: left;
+}
+
+.profile-card-stats a {
+  display: block;
+}
+
+.posts-list {
+  margin-top: 10px;
+  background: #f7f7f7;
+  padding: 15px;
+  min-height: 300px;
+}

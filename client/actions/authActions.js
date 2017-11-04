@@ -5,7 +5,6 @@ export const signUp = userData => dispatch => {
   axios
     .post('/api/v1/signup', userData)
     .then(result => {
-      console.log(result.data);
       cookie.save('token', result.data.token, { path: '/', httpOnly: true });
       dispatch({ type: 'AUTH_USER' });
 
