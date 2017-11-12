@@ -3,7 +3,7 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Header from './templates/Header';
+// import Header from './templates/Header';
 import WelcomePage from './home/WelcomePage';
 import Dashboard from './home/Dashboard';
 import SignUpPage from './SignUpPage';
@@ -14,17 +14,17 @@ import NotFoundPage from './NotFoundPage';
 class App extends Component {
   render() {
     const { location, isAuthenticated } = this.props;
-    let header = <Header isAuthenticated={isAuthenticated} />;
+    // let header = <Header />;
 
-    if (location.pathname === '/' && !isAuthenticated) {
-      header = null;
-    } else if (location.pathname === '/signup') {
-      header = null;
-    }
+    // if (location.pathname === '/' && !isAuthenticated) {
+    //   header = null;
+    // } else if (location.pathname === '/signup') {
+    //   header = null;
+    // }
 
     return (
       <div>
-        {header}
+        {/* {header} */}
         <Switch>
           <Route
             path="/"
@@ -41,7 +41,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  isAuthenticated: state.user.isAuthenticated,
 });
 
 App.propTypes = {

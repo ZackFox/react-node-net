@@ -7,7 +7,7 @@ import { getUserPosts } from '../actions/userActions';
 class PostList extends Component {
   componentDidMount() {
     const profileName = this.props.match.params.profileName;
-    this.props.getUserPosts(profileName);
+    // this.props.getUserPosts(profileName);
   }
 
   render() {
@@ -24,7 +24,7 @@ class PostList extends Component {
 }
 
 const mapStateToProps = state => ({
-  userPosts: state.user.userPosts,
+  userPosts: state.profile.userPosts,
 });
 
 export default connect(mapStateToProps, { getUserPosts })(PostList);

@@ -3,9 +3,15 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { logOut } from '../../actions/authActions';
+import { getCurrentUser, logOut } from '../../actions/userActions';
 
 class Header extends Component {
+  componentDidMount() {
+    if (this.props.isAuthenticated && !this.props.username) {
+      this.props.getCurrentUser();
+    }
+  }
+
   onLogOut = e => {
     e.preventDefault();
     this.props.logOut();
@@ -53,6 +59,7 @@ class Header extends Component {
             </div>
             {navlinks}
             <div className="nav navbar-nav navbar-right">{button}</div>
+            <a href="/">{this.props.username}</a>
           </div>
         </nav>
       </header>
@@ -60,9 +67,15 @@ class Header extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  isAuthenticated: state.user.isAuthenticated,
+  username: state.user.username,
+  avatar: state.user.avatar,
+});
+
 Header.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   logOut: PropTypes.func.isRequired,
 };
 
-export default connect(() => ({}), { logOut })(Header);
+export default connect(mapStateToProps, { getCurrentUser, logOut })(Header);

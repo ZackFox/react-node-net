@@ -1,37 +1,45 @@
 const initialState = {
-  // profile: {},
+  id: null,
+  screenName: '',
   username: '',
   email: '',
-  createTime: '',
+  createTime: null,
   avatar: '',
-  postsCount: 0,
-  subsCount: 0,
-  followingCount: 0,
-  favsCount: 0,
+  posts_count: 0,
+  subs_count: 0,
+  following_count: 0,
+  favs_count: 0,
   allPosts: [],
   userPosts: [],
+  errors: '',
   message: '',
-  error: '',
+  isAuthenticated: false,
 };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'AUTH_USER':
+      return { ...state, isAuthenticated: true };
+    case 'AUTH_ERROR':
+      return { ...state, message: action.message };
+    case 'UNAUTH_USER':
+      return { ...state, isAuthenticated: false };
+
     case 'GET_USER':
       return {
         ...state,
+        id: action.user._id,
         username: action.user.username,
         email: action.user.email,
         createTime: action.user.createTime,
         avatar: action.user.avatar,
-        postsCount: action.user.posts,
-        subsCount: action.user.subscribers,
-        followingCount: action.user.following,
-        favsCount: action.user.favs,
+        posts_count: action.user.posts,
+        subs_count: action.user.subscribers,
+        following_count: action.user.following,
+        favs_count: action.user.favs,
       };
-    case 'GET_USER_POSTS':
-      return { ...state, userPosts: action.posts };
-    case 'ADD_NEW_POST':
-      return { ...state, isAuthenticated: true };
+    case 'FOLLOW':
+      return state;
     default:
       return state;
   }

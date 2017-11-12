@@ -1,20 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getUser } from '../../actions/userActions';
-
 class ProfileCard extends Component {
-  componentDidMount() {
-    this.props.getUser();
-  }
-
   render() {
     const {
       username,
       avatar,
-      postsCount,
-      subsCount,
-      followingCount,
+      posts_count,
+      subs_count,
+      following_count,
     } = this.props;
 
     return (
@@ -31,13 +25,13 @@ class ProfileCard extends Component {
             {this.props.username}
           </a>
           <a href={`/${username}`}>
-            Наболтал <span> {postsCount}</span>
+            Наболтал <span> {posts_count}</span>
           </a>
           <a href={`/${username}/subscribers`}>
-            Сплетники <span>{subsCount}</span>
+            Сплетники <span>{subs_count}</span>
           </a>
           <a href={`/${username}/following`}>
-            Болтунов <span>{followingCount}</span>
+            Болтунов <span>{following_count}</span>
           </a>
         </div>
       </div>
@@ -49,9 +43,9 @@ const mapStateToProps = state => ({
   username: state.user.username,
   email: state.user.email,
   avatar: state.user.avatar,
-  postsCount: state.user.postsCount,
-  subsCount: state.user.subsCount,
-  followingCount: state.user.followingCount,
+  posts_count: state.user.posts_count,
+  subs_count: state.user.subs_count,
+  following_count: state.user.following_count,
 });
 
-export default connect(mapStateToProps, { getUser })(ProfileCard);
+export default connect(mapStateToProps, {})(ProfileCard);

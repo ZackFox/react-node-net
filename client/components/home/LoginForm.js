@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { signIn } from '../../actions/authActions';
+import { signIn } from '../../actions/userActions';
 
 class LoginForm extends Component {
   onSignUp = () => {
@@ -55,7 +55,7 @@ class LoginForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({ message: state.auth.message });
+const mapStateToProps = state => ({ message: state.user.message });
 
 LoginForm.propTypes = {
   signIn: PropTypes.func.isRequired,

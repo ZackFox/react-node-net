@@ -1,12 +1,62 @@
-import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 import User from '../models/User';
-import Post from '../models/Post';
+import config from '../config/config';
 
 const ObjectId = mongoose.Types.ObjectId;
 
 const userController = {};
+
+userController.signUp = (req, res, next) => {
+  const { email, username, password } = req.body;
+  const user = new User();
+  user.email = email;
+  user.username = username;
+  user.setPassword(password);
+  user
+    .save()
+    .then(newUser => {
+      res.status(200).json({ success: true, message: '200', user: newUser });
+    })
+    .catch(err => next(err));
+};
+
+userController.signIn = (req, res) => {
+  const { email, password } = req.body;
+
+  if (email === '' || password === '') {
+    res.status(401).json({ message: 'Email и пароль должны быть заполнены' });
+    return;
+  }
+
+  User.aggregate(
+    { $match: { email } },
+    { $project: { email: 1, passwordHash: 1, username: 1 } }
+  )
+    .then(result => {
+      const user = result[0];
+      if (!bcrypt.compareSync(password, user.passwordHash)) {
+        res.status(403).json({ message: 'Пароль неверный' });
+        return;
+      }
+      const token = jwt.sign(
+        { id: user._id, email: user.email, username: user.username },
+        config.secretKey,
+        {
+          expiresIn: 10000,
+        }
+      );
+
+      res
+        .status(200)
+        .json({ message: 'authentication has succeed', token, user });
+    })
+    .catch(() =>
+      res.status(401).json({ message: 'Учетная запись не найдена' })
+    );
+};
 
 userController.getUser = (req, res, next) => {
   User.aggregate([
@@ -52,16 +102,6 @@ userController.doPost = (req, res, next) => {
     )
     .then(() => {
       res.status(200).json({ status: '200', message: 'sending has succeed' });
-    })
-    .catch(err => next(err));
-};
-
-userController.getUserPosts = (req, res, next) => {
-  const author = req.query.profileName;
-  Post.find({ author })
-    .limit(10)
-    .then(posts => {
-      res.status(200).json({ status: '200', message: 'get posts', posts });
     })
     .catch(err => next(err));
 };
