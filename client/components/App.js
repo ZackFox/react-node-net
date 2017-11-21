@@ -14,13 +14,6 @@ import NotFoundPage from './NotFoundPage';
 class App extends Component {
   render() {
     const { location, isAuthenticated } = this.props;
-    // let header = <Header />;
-
-    // if (location.pathname === '/' && !isAuthenticated) {
-    //   header = null;
-    // } else if (location.pathname === '/signup') {
-    //   header = null;
-    // }
 
     return (
       <div>

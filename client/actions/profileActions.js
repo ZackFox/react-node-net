@@ -19,7 +19,7 @@ export const getUserProfile = profileName => dispatch => {
     });
 };
 
-export const getUserPosts = profileName => dispatch => {
+export const getPosts = profileName => dispatch => {
   axios
     .get('/api/v1/posts', {
       params: { profileName },
@@ -27,7 +27,8 @@ export const getUserPosts = profileName => dispatch => {
     })
     .then(response => {
       const posts = response.data.posts;
-      dispatch({ type: 'GET_USER_POSTS', posts });
+
+      dispatch({ type: 'GET_POSTS', posts });
     });
   // .catch(()=>{
   // });

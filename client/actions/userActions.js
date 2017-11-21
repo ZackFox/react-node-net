@@ -7,7 +7,6 @@ export const signUp = userData => dispatch => {
     .then(result => {
       cookie.save('token', result.data.token, { path: '/', httpOnly: true });
       dispatch({ type: 'AUTH_USER' });
-
       // REDIRECT
     })
     .catch(() => {});
@@ -31,10 +30,9 @@ export const signIn = userData => dispatch => {
 export const logOut = userData => dispatch => {
   axios
     .post('/api/v1/logout', userData)
-    .then(result => {
+    .then(() => {
       cookie.remove('token');
       dispatch({ type: 'UNAUTH_USER' });
-
       // REDIRECT
     })
     .catch(() => {});
@@ -51,6 +49,17 @@ export const getCurrentUser = () => dispatch => {
     .catch(() => {});
 };
 
+export const getTimeline = () => dispatch => {
+  axios
+    .get('/api/v1/timeline', {
+      headers: { Authorization: `Bearer ${cookie.load('token')}` },
+    })
+    .then(response => {
+      dispatch({ type: 'GET_TIMELINE', timeline: response.data.posts });
+    })
+    .catch(() => {});
+};
+
 export const sendPost = text => dispatch => {
   axios
     .post('/api/v1/post', {
@@ -63,4 +72,37 @@ export const sendPost = text => dispatch => {
     });
   // .catch(()=>{
   // });
+};
+
+export const follow = profileId => dispatch => {
+  axios
+    .post(
+      `/api/v1/follow/${profileId}`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${cookie.load('token')}` },
+      }
+    )
+    .then(response => {
+      // console.log(response.data);
+      dispatch({ type: 'FOLLOW' });
+      dispatch({ type: 'INCREASE_FOLLOWING_COUNT' });
+    })
+    .catch(() => {});
+};
+
+export const unfollow = profileId => dispatch => {
+  axios
+    .put(
+      `/api/v1/follow/${profileId}`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${cookie.load('token')}` },
+      }
+    )
+    .then(response => {
+      dispatch({ type: 'UNFOLLOW' });
+      dispatch({ type: 'DECREASE_FOLLOWING_COUNT' });
+    })
+    .catch(() => {});
 };

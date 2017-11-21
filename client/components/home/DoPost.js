@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { sendPost } from '../../actions/userActions';
 
 class DoPost extends Component {
   makePost = e => {
@@ -27,4 +25,4 @@ class DoPost extends Component {
   }
 }
 
-export default connect(() => ({}), { sendPost })(DoPost);
+export default DoPost;

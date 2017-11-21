@@ -6,6 +6,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const UserSchema = new mongoose.Schema({
   email: { type: String, lowercase: true, unique: true, required: true },
+  screenName: { type: String, required: true },
   username: { type: String, unique: true, required: true },
   passwordHash: { type: String, required: true },
   posts: [{ type: ObjectId, ref: 'Post' }],

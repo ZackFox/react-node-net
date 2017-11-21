@@ -1,30 +1,15 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
+import React from 'react';
 import PostItem from './PostItem';
-import { getUserPosts } from '../actions/userActions';
 
-class PostList extends Component {
-  componentDidMount() {
-    const profileName = this.props.match.params.profileName;
-    // this.props.getUserPosts(profileName);
+const PostList = ({ posts }) => {
+  let list;
+  if (posts && posts.length > 0) {
+    list = <ul> {posts.map(p => <PostItem key={p._id} post={p} />)}</ul>;
+  } else {
+    list = <div> Балабол еще ничего не наболтал</div>;
   }
 
-  render() {
-    return (
-      <div className="posts-list">
-        <ul>
-          {this.props.userPosts.map(post => (
-            <PostItem key={post._id} post={post} />
-          ))}
-        </ul>
-      </div>
-    );
-  }
-}
+  return <div className="posts-list">{list}</div>;
+};
 
-const mapStateToProps = state => ({
-  userPosts: state.profile.userPosts,
-});
-
-export default connect(mapStateToProps, { getUserPosts })(PostList);
+export default PostList;

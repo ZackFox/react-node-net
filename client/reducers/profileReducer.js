@@ -9,9 +9,8 @@ const initialState = {
   subs_count: 0,
   following_count: 0,
   favs_count: 0,
-  allPosts: [],
-  userPosts: [],
-  isFollowig: false,
+  posts: [],
+  isFollowing: false,
   message: '',
   error: '',
 };
@@ -26,12 +25,18 @@ const profileReducer = (state = initialState, action) => {
         email: action.profile.email,
         createTime: action.profile.createTime,
         avatar: action.profile.avatar,
-        isFollowig: action.profile.isFollowig,
-        canEdit: action.profile.canEdit,
-        // username: action.profile.username,
+        posts_count: action.profile.posts_count,
+        subs_count: action.profile.subs_count,
+        following_count: action.profile.following_count,
+        favs_count: action.profile.favs_count,
+        isFollowing: action.profile.isFollowing,
       };
-    case 'GET_USER_POSTS':
-      return { ...state, userPosts: action.posts };
+    case 'GET_POSTS':
+      return { ...state, posts: action.posts };
+    case 'FOLLOW':
+      return { ...state, isFollowing: true };
+    case 'UNFOLLOW':
+      return { ...state, isFollowing: false };
     default:
       return state;
   }
