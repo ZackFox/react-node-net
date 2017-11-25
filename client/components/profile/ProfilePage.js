@@ -31,51 +31,71 @@ class ProfilePage extends Component {
   };
 
   render() {
-    const { isAuthenticated, user_id, profile_id, isFollowing } = this.props;
+    const {
+      isAuthenticated,
+      user_id,
+      profile,
+      isFollowing,
+      isLoading,
+    } = this.props;
 
-    let button = null;
-    if (isAuthenticated && user_id === profile_id) button = null;
-    if (isAuthenticated && user_id !== profile_id) {
-      if (isFollowing) {
-        button = (
-          <button data-id={profile_id} onClick={this.onUnfollow}>
-            Забыть
-          </button>
-        );
-      } else {
-        button = (
-          <button data-id={profile_id} onClick={this.onFollow}>
-            Подслушивать
-          </button>
-        );
-      }
+    if (isLoading) {
+      return <div>...загрузка </div>;
     }
 
+    // let button = null;
+    // if (isAuthenticated && user_id === profile._id) button = null;
+    // if (isAuthenticated && user_id !== profile._id) {
+    //   if (isFollowing) {
+    //     button = (
+    //       <button data-id={profile._id} onClick={this.onUnfollow}>
+    //         Забыть
+    //       </button>
+    //     );
+    //   } else {
+    //     button = (
+    //       <button data-id={profile._id} onClick={this.onFollow}>
+    //         Подслушивать
+    //       </button>
+    //     );
+    //   }
+    // }
+
     return (
-      <div className="">
-        <div className="row">
-          <div className="col-md-12">
-            <Header />
-            {button}
+      <div>
+        <Header />
+        <div className="profile-content">
+          <div className="profile-bg" />
+          <div className="container">
+            <div className="profile-avatar">
+              <img src={`/assets/img/uploads/${profile.avatar}`} alt="avatar" />
+            </div>
+            <div className="profile-stats">
+              {/* {button} */}
+              <div>
+                Наболтал <span> {profile.posts_count}</span>
+              </div>
+              <a href={`/${profile.username}/subscribers`}>
+                Сплетники <span>{profile.subs_count}</span>
+              </a>
+              <a href={`/${profile.username}/following`}>
+                Болтунов <span>{profile.following_count}</span>
+              </a>
+            </div>
           </div>
         </div>
         <div className="container">
-          <div className="row">
-            <div className="col-md-offset-3 col-md-9">
-              <Switch>
-                <Route
-                  path="/:profileName"
-                  exact
-                  render={() => <PostList posts={this.props.posts} />}
-                />
-                <Route
-                  path="/:profileName/subscribers"
-                  component={Subscribers}
-                />
-                <Route path="/:profileName/following" component={Following} />
-                {/* <Route path="*" component={NotFoundPage} /> */}
-              </Switch>
-            </div>
+          <div className="col-md-offset-3 col-md-9">
+            <Switch>
+              <Route
+                path="/:profileName"
+                exact
+                render={() => <PostList posts={this.props.posts} />}
+              />
+              <Route path="/:profileName/subscribers" component={Subscribers} />
+              <Route path="/:profileName/following" component={Following} />
+              <Route path="*" component={NotFoundPage} />
+            </Switch>
           </div>
         </div>
       </div>
@@ -84,11 +104,11 @@ class ProfilePage extends Component {
 }
 
 const mapStateToProps = state => ({
-  user_id: state.user.id,
-  profile_id: state.profile.id,
   isAuthenticated: state.user.isAuthenticated,
-  isFollowing: state.profile.isFollowing,
+  user_id: state.user.id,
+  profile: state.profile.data,
   posts: state.profile.posts,
+  isLoading: state.profile.isLoading,
 });
 
 export default connect(mapStateToProps, {

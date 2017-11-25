@@ -10,11 +10,11 @@ router.post('/signup', userController.signUp);
 router.post('/signin', userController.signIn);
 
 router.get('/user', authMiddleware, userController.getCurrentUser);
-router.get('/timeline', authMiddleware, userController.getUserTimeline);
-router.post('/post', authMiddleware, userController.doPost);
-
 router.get('/profile', checkProfile, userController.getUser);
+
+router.get('/timeline', authMiddleware, userController.getUserTimeline);
 router.get('/posts', checkProfile, userController.getUserPosts);
+router.post('/post', authMiddleware, userController.doPost);
 
 router.post('/follow/:profileId', authMiddleware, userController.follow);
 router.put('/follow/:profileId', authMiddleware, userController.unfollow);

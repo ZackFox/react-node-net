@@ -39,14 +39,19 @@ export const logOut = userData => dispatch => {
 };
 
 export const getCurrentUser = () => dispatch => {
+  dispatch({ type: 'START_USER_LOADING' });
   axios
     .get('/api/v1/user', {
       headers: { Authorization: `Bearer ${cookie.load('token')}` },
     })
     .then(response => {
       dispatch({ type: 'GET_USER', user: response.data.user });
+      dispatch({ type: 'STOP_USER_LOADING' });
     })
-    .catch(() => {});
+    .catch(() => {
+      cookie.remove('token');
+      dispatch({ type: 'UNAUTH_USER' });
+    });
 };
 
 export const getTimeline = () => dispatch => {
@@ -76,13 +81,9 @@ export const sendPost = text => dispatch => {
 
 export const follow = profileId => dispatch => {
   axios
-    .post(
-      `/api/v1/follow/${profileId}`,
-      {},
-      {
-        headers: { Authorization: `Bearer ${cookie.load('token')}` },
-      }
-    )
+    .post(`/api/v1/follow/${profileId}`, null, {
+      headers: { Authorization: `Bearer ${cookie.load('token')}` },
+    })
     .then(response => {
       // console.log(response.data);
       dispatch({ type: 'FOLLOW' });
@@ -93,13 +94,9 @@ export const follow = profileId => dispatch => {
 
 export const unfollow = profileId => dispatch => {
   axios
-    .put(
-      `/api/v1/follow/${profileId}`,
-      {},
-      {
-        headers: { Authorization: `Bearer ${cookie.load('token')}` },
-      }
-    )
+    .put(`/api/v1/follow/${profileId}`, null, {
+      headers: { Authorization: `Bearer ${cookie.load('token')}` },
+    })
     .then(response => {
       dispatch({ type: 'UNFOLLOW' });
       dispatch({ type: 'DECREASE_FOLLOWING_COUNT' });

@@ -69,6 +69,7 @@ userController.getCurrentUser = (req, res, next) => {
     },
     {
       $project: {
+        screenName:1,
         username: 1,
         email: 1,
         createTime: 1,

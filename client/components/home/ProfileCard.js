@@ -3,36 +3,33 @@ import { connect } from 'react-redux';
 
 class ProfileCard extends Component {
   render() {
-    const {
-      username,
-      avatar,
-      posts_count,
-      subs_count,
-      following_count,
-    } = this.props;
+    const { user } = this.props;
 
     return (
       <div className="profile-card clearfix">
-        <div className="userpic">
-          <img src={`/assets/img/uploads/${this.props.avatar}`} alt="avatar" />
-        </div>
-        <div>
-          <a href={`/${username}`}>{username}</a>
-        </div>
-        <div className="profile-card-stats">
-          <a href={`/${username}`}>
-            <span>@</span>
-            {this.props.username}
+        <div className="card-bg" />
+        <div className="profile-card-content">
+          <a className="user-avatar" href={`/${user.username}`}>
+            <img src={`/assets/img/uploads/${user.avatar}`} alt="avatar" />
           </a>
-          <a href={`/${username}`}>
-            Наболтал <span> {posts_count}</span>
-          </a>
-          <a href={`/${username}/subscribers`}>
-            Сплетники <span>{subs_count}</span>
-          </a>
-          <a href={`/${username}/following`}>
-            Болтунов <span>{following_count}</span>
-          </a>
+          <div className="card-name">
+            <a href={`/${user.username}`}>
+              <div>{user.screenName}</div>
+              <span>@</span>
+              {user.username}
+            </a>
+          </div>
+          <div className="card-stats">
+            <a href={`/${user.username}`}>
+              Наболтал <span> {user.posts_count}</span>
+            </a>
+            <a href={`/${user.username}/subscribers`}>
+              Сплетники <span>{user.subs_count}</span>
+            </a>
+            <a href={`/${user.username}/following`}>
+              Болтунов <span>{user.following_count}</span>
+            </a>
+          </div>
         </div>
       </div>
     );
@@ -40,12 +37,7 @@ class ProfileCard extends Component {
 }
 
 const mapStateToProps = state => ({
-  username: state.user.username,
-  email: state.user.email,
-  avatar: state.user.avatar,
-  posts_count: state.user.posts_count,
-  subs_count: state.user.subs_count,
-  following_count: state.user.following_count,
+  user: state.user.data,
 });
 
 export default connect(mapStateToProps, {})(ProfileCard);

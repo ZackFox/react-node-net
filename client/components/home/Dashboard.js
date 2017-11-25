@@ -14,15 +14,14 @@ class Dashboard extends Component {
   }
 
   render() {
+    if (this.props.isLoading) {
+      return <div>...загрузка </div>;
+    }
+
     return (
       <div>
-        <div className="row">
-          <div className="col-md-12">
-            <Header />
-          </div>
-        </div>
-
-        <div className="row">
+        <Header />
+        <div className="page-content">
           <div className="container">
             <div className="col-md-4">
               <ProfileCard />
@@ -41,7 +40,7 @@ class Dashboard extends Component {
 
 const mapStateToProps = state => ({
   timeline: state.user.timeline,
-  // username: state.user.username,
+  isLoading: state.user.isLoading,
   // email: state.user.email,
   // avatar: state.user.avatar,
   // posts_count: state.user.posts_count,

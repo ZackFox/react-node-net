@@ -1,16 +1,8 @@
 const initialState = {
   isAuthenticated: false,
-  id: null,
-  screenName: '',
-  username: '',
-  email: '',
-  createTime: null,
-  avatar: '',
-  posts_count: 0,
-  subs_count: 0,
-  following_count: 0,
-  favs_count: 0,
+  data: {},
   timeline: [],
+  isLoading: false,
   errors: '',
   message: '',
 };
@@ -23,29 +15,30 @@ const userReducer = (state = initialState, action) => {
       return { ...state, message: action.message };
     case 'UNAUTH_USER':
       return { ...state, isAuthenticated: false };
-
     case 'GET_USER':
-      return {
-        ...state,
-        id: action.user._id,
-        username: action.user.username,
-        email: action.user.email,
-        createTime: action.user.createTime,
-        avatar: action.user.avatar,
-        posts_count: action.user.posts_count,
-        subs_count: action.user.subs_count,
-        following_count: action.user.following_count,
-        favs_count: action.user.favs_count,
-      };
+      return { ...state, data: action.user };
+    case 'START_USER_LOADING':
+      return { ...state, isLoading: true };
+    case 'STOP_USER_LOADING':
+      return { ...state, isLoading: false };
     case 'GET_TIMELINE':
       return { ...state, timeline: action.timeline };
     case 'INCREASE_FOLLOWING_COUNT':
-      return { ...state, following_count: state.following_count + 1 };
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          following_count: state.data.following_count + 1,
+        },
+      };
     case 'DECREASE_FOLLOWING_COUNT':
       return {
         ...state,
-        following_count:
-          state.following_count > 0 ? state.following_count - 1 : 0,
+        data: {
+          ...state.data,
+          following_count:
+            state.data.following_count > 0 ? state.data.following_count - 1 : 0,
+        },
       };
     default:
       return state;

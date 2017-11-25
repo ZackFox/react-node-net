@@ -12,7 +12,8 @@ class DoPost extends Component {
     return (
       <div className="post-box">
         <form onSubmit={this.makePost}>
-          <input
+          <textarea
+            className="text-box-input"
             type="text"
             ref={el => {
               this.inputtext = el;

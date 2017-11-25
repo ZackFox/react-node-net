@@ -9,10 +9,12 @@ export const getUserProfile = profileName => dispatch => {
     options.headers = { Authorization: `Bearer ${token}` };
   }
 
+  dispatch({type: "START_PROFILE_LOADING" })
   axios
     .get('/api/v1/profile', options)
     .then(response => {
       dispatch({ type: 'GET_USER_PROFILE', profile: response.data });
+      dispatch({type: "STOP_PROFILE_LOADING" })
     })
     .catch(() => {
       dispatch({ type: 'PROFILE_NOT_FOUND', message: '404' });

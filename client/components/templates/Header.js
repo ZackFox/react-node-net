@@ -7,7 +7,7 @@ import { getCurrentUser, logOut } from '../../actions/userActions';
 
 class Header extends Component {
   componentDidMount() {
-    if (this.props.isAuthenticated && !this.props.username) {
+    if (this.props.isAuthenticated && !this.props.user.username) {
       this.props.getCurrentUser();
     }
   }
@@ -31,7 +31,9 @@ class Header extends Component {
       navlinks = (
         <ul className="nav navbar-nav">
           <li>
-            <Link to="/profile">Профиль</Link>
+            <a href={`/${this.props.user.username}`}>
+              {this.props.user.screenName}
+            </a>
           </li>
           <li className="active">
             <Link to="/">Уведомления</Link>
@@ -59,7 +61,6 @@ class Header extends Component {
             </div>
             {navlinks}
             <div className="nav navbar-nav navbar-right">{button}</div>
-            <a href="/">{this.props.username}</a>
           </div>
         </nav>
       </header>
@@ -69,8 +70,7 @@ class Header extends Component {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.user.isAuthenticated,
-  username: state.user.username,
-  avatar: state.user.avatar,
+  user: state.user.data,
 });
 
 Header.propTypes = {
