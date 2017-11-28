@@ -6,30 +6,37 @@ import ProfileCard from './ProfileCard';
 import DoPost from './DoPost';
 import PostList from '../PostList';
 
-import { sendPost, getTimeline } from '../../actions/userActions';
+import {
+  getCurrentUser,
+  getTimeline,
+  sendPost,
+} from '../../actions/userActions';
 
 class Dashboard extends Component {
   componentDidMount() {
+    this.props.getCurrentUser();
     this.props.getTimeline();
   }
 
   render() {
-    if (this.props.isLoading) {
+    const { user, isLoading, timeline, sendPost } = this.props;
+
+    if (isLoading) {
       return <div>...загрузка </div>;
     }
 
     return (
       <div>
-        <Header />
+        <Header user={user} />
         <div className="page-content">
           <div className="container">
             <div className="col-md-4">
-              <ProfileCard />
+              <ProfileCard user={user} />
             </div>
 
             <div className="col-md-8">
-              <DoPost sendPost={this.props.sendPost} />
-              <PostList posts={this.props.timeline} />
+              <DoPost sendPost={sendPost} />
+              <PostList posts={timeline} />
             </div>
           </div>
         </div>
@@ -39,13 +46,13 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
+  user: state.user.data,
   timeline: state.user.timeline,
   isLoading: state.user.isLoading,
-  // email: state.user.email,
-  // avatar: state.user.avatar,
-  // posts_count: state.user.posts_count,
-  // subs_count: state.user.subs_count,
-  // following_count: state.user.following_count,
 });
 
-export default connect(mapStateToProps, { sendPost, getTimeline })(Dashboard);
+export default connect(mapStateToProps, {
+  sendPost,
+  getCurrentUser,
+  getTimeline,
+})(Dashboard);

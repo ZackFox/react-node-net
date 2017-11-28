@@ -14,7 +14,7 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <div>
+      <div className="login-form">
         <form onSubmit={this.onSend}>
           <div className="form-group">
             <input
@@ -46,10 +46,10 @@ class LoginForm extends Component {
               onClick={this.onSignUp}
               value="войти"
             />
+            <Link to="/signup">Регистрация</Link>
+            <Link to="/pass">Забыл пароль</Link>
           </div>
         </form>
-        <Link to="/signup">Регистрация</Link>
-        <Link to="/pass">Забыл пароль</Link>
       </div>
     );
   }

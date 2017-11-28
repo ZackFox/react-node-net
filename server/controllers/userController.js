@@ -12,9 +12,10 @@ const userController = {};
 
 // =======================
 userController.signUp = (req, res, next) => {
-  const { email, username, password } = req.body;
+  const { email, screenname, username, password } = req.body;
   const user = new User();
   user.email = email;
+  user.screenName = screenname;
   user.username = username;
   user.setPassword(password);
   user
@@ -45,7 +46,11 @@ userController.signIn = (req, res) => {
         return;
       }
       const token = jwt.sign(
-        { id: user._id, email: user.email, username: user.username },
+        {
+          id: user._id,
+          email: user.email,
+          username: user.username,
+        },
         config.secretKey,
         {
           expiresIn: 10000,
@@ -69,7 +74,7 @@ userController.getCurrentUser = (req, res, next) => {
     },
     {
       $project: {
-        screenName:1,
+        screenName: 1,
         username: 1,
         email: 1,
         createTime: 1,
@@ -130,23 +135,22 @@ userController.getUserTimeline = (req, res, next) => {
 };
 
 // ==================================================
-userController.doPost = (req, res, next) => {
+userController.createPost = (req, res, next) => {
+  const user = req.user;
   const text = req.body.text;
-
+  
   const newPost = new Post();
   newPost.text = text;
-  newPost.author = req.user.username;
-
+  newPost.author = ObjectId(user.id);
   newPost
     .save()
     .then(() =>
-      User.findOneAndUpdate(
-        { username: req.user.username },
-        { $push: { posts: newPost._id } }
-      )
+      User.findByIdAndUpdate(user.id, { $push: { posts: newPost._id } })
     )
     .then(() => {
-      res.status(200).json({ status: '200', message: 'sending has succeed' });
+      res
+        .status(200)
+        .json({ status: '200', message: 'sending has succed', post: newPost });
     })
     .catch(err => next(err));
 };
@@ -154,7 +158,7 @@ userController.doPost = (req, res, next) => {
 userController.getUserPosts = (req, res, next) => {
   const author = req.profile._id;
   Post.find({ author })
-    .populate('author', '_id screenName username avatar createTime')
+    .populate('author', '_id screenName username avatar')
     .limit(10)
     .then(posts => {
       res.status(200).json({ status: '200', message: 'get posts', posts });

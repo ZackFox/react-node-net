@@ -23,6 +23,16 @@ const userReducer = (state = initialState, action) => {
       return { ...state, isLoading: false };
     case 'GET_TIMELINE':
       return { ...state, timeline: action.timeline };
+    case 'ADD_NEW_POST':
+      return {
+        ...state,
+        timeline: [action.post, ...state.timeline],
+      };
+    case 'INCREASE_POSTS_COUNT':
+      return {
+        ...state,
+        posts_count: state.posts_count + 1,
+      };
     case 'INCREASE_FOLLOWING_COUNT':
       return {
         ...state,

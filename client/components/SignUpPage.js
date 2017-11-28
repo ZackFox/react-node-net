@@ -9,6 +9,7 @@ class SignUpPage extends Component {
     e.preventDefault();
     this.props.signUp({
       email: this.email.value,
+      screenname: this.screenname.value,
       username: this.username.value,
       password: this.password.value,
     });
@@ -28,8 +29,16 @@ class SignUpPage extends Component {
           />
           <input
             type="text"
-            name="username"
+            name="screenname"
             placeholder="Имя на сайте"
+            ref={el => {
+              this.screenname = el;
+            }}
+          />
+          <input
+            type="text"
+            name="username"
+            placeholder="Имя профиля"
             ref={el => {
               this.username = el;
             }}

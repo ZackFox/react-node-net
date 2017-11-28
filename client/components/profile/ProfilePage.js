@@ -8,12 +8,13 @@ import Following from '../profile/following';
 import PostList from '../PostList';
 import NotFoundPage from '../../components/NotFoundPage';
 
+import { getCurrentUser, follow, unfollow } from '../../actions/userActions';
 import { getUserProfile, getPosts } from '../../actions/profileActions';
-import { follow, unfollow } from '../../actions/userActions';
 
 class ProfilePage extends Component {
   componentDidMount() {
     const profileName = this.props.match.params.profileName;
+    this.props.getCurrentUser(profileName);
     this.props.getUserProfile(profileName);
     this.props.getPosts(profileName);
   }
@@ -32,9 +33,10 @@ class ProfilePage extends Component {
 
   render() {
     const {
-      isAuthenticated,
-      user_id,
+      user,
       profile,
+      posts,
+      isAuthenticated,
       isFollowing,
       isLoading,
     } = this.props;
@@ -63,7 +65,7 @@ class ProfilePage extends Component {
 
     return (
       <div>
-        <Header />
+        <Header user={user} />
         <div className="profile-content">
           <div className="profile-bg" />
           <div className="container">
@@ -90,7 +92,7 @@ class ProfilePage extends Component {
               <Route
                 path="/:profileName"
                 exact
-                render={() => <PostList posts={this.props.posts} />}
+                render={() => <PostList posts={posts} />}
               />
               <Route path="/:profileName/subscribers" component={Subscribers} />
               <Route path="/:profileName/following" component={Following} />
@@ -104,14 +106,15 @@ class ProfilePage extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.user.isAuthenticated,
-  user_id: state.user.id,
+  user: state.user.data,
   profile: state.profile.data,
   posts: state.profile.posts,
+  isAuthenticated: state.user.isAuthenticated,
   isLoading: state.profile.isLoading,
 });
 
 export default connect(mapStateToProps, {
+  getCurrentUser,
   getUserProfile,
   getPosts,
   follow,

@@ -46,9 +46,11 @@ export const getCurrentUser = () => dispatch => {
     })
     .then(response => {
       dispatch({ type: 'GET_USER', user: response.data.user });
+      // dispatch({ type: 'AUTH_USER' });
       dispatch({ type: 'STOP_USER_LOADING' });
     })
     .catch(() => {
+      dispatch({ type: 'STOP_USER_LOADING' });
       cookie.remove('token');
       dispatch({ type: 'UNAUTH_USER' });
     });
@@ -61,22 +63,28 @@ export const getTimeline = () => dispatch => {
     })
     .then(response => {
       dispatch({ type: 'GET_TIMELINE', timeline: response.data.posts });
+      dispatch({ type: 'INCREASE_POSTS_COUNT' });
     })
     .catch(() => {});
 };
 
 export const sendPost = text => dispatch => {
   axios
-    .post('/api/v1/post', {
-      text,
-      headers: { Authorization: `Bearer ${cookie.load('token')}` },
-    })
+    .post(
+      '/api/v1/post',
+      {
+        text,
+      },
+      {
+        headers: { Authorization: `Bearer ${cookie.load('token')}` },
+      }
+    )
     .then(response => {
-      console.log(response.data);
-      // dispatch({ type: 'ADD_NEW_POST'});
+      dispatch({ type: 'ADD_NEW_POST', post: response.data.post });
+    })
+    .catch(err => {
+      console.log(err);
     });
-  // .catch(()=>{
-  // });
 };
 
 export const follow = profileId => dispatch => {

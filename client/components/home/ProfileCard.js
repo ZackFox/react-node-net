@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 class ProfileCard extends Component {
   render() {
@@ -36,8 +35,4 @@ class ProfileCard extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.user.data,
-});
-
-export default connect(mapStateToProps, {})(ProfileCard);
+export default ProfileCard;

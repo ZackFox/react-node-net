@@ -1,6 +1,4 @@
 import User from '../models/User';
-import jwt from 'jsonwebtoken';
-import config from '../config/config';
 
 export default (req, res, next) => {
   const username = req.query.profileName;

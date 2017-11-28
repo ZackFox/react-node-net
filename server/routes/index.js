@@ -14,7 +14,7 @@ router.get('/profile', checkProfile, userController.getUser);
 
 router.get('/timeline', authMiddleware, userController.getUserTimeline);
 router.get('/posts', checkProfile, userController.getUserPosts);
-router.post('/post', authMiddleware, userController.doPost);
+router.post('/post', authMiddleware, userController.createPost);
 
 router.post('/follow/:profileId', authMiddleware, userController.follow);
 router.put('/follow/:profileId', authMiddleware, userController.unfollow);

@@ -3,15 +3,9 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getCurrentUser, logOut } from '../../actions/userActions';
+import { logOut } from '../../actions/userActions';
 
 class Header extends Component {
-  componentDidMount() {
-    if (this.props.isAuthenticated && !this.props.user.username) {
-      this.props.getCurrentUser();
-    }
-  }
-
   onLogOut = e => {
     e.preventDefault();
     this.props.logOut();
@@ -70,12 +64,12 @@ class Header extends Component {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.user.isAuthenticated,
-  user: state.user.data,
 });
 
 Header.propTypes = {
+  user: PropTypes.shape({}).isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   logOut: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, { getCurrentUser, logOut })(Header);
+export default connect(mapStateToProps, { logOut })(Header);
