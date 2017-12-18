@@ -74,9 +74,9 @@ class ProfilePage extends Component {
             </div>
             <div className="profile-stats">
               {/* {button} */}
-              <div>
+              <span>
                 Наболтал <span> {profile.posts_count}</span>
-              </div>
+              </span>
               <a href={`/${profile.username}/subscribers`}>
                 Сплетники <span>{profile.subs_count}</span>
               </a>

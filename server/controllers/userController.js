@@ -138,19 +138,27 @@ userController.getUserTimeline = (req, res, next) => {
 userController.createPost = (req, res, next) => {
   const user = req.user;
   const text = req.body.text;
-  
+
   const newPost = new Post();
   newPost.text = text;
   newPost.author = ObjectId(user.id);
   newPost
     .save()
     .then(() =>
+      // ---------------- увеличить счетчик постов !
       User.findByIdAndUpdate(user.id, { $push: { posts: newPost._id } })
     )
-    .then(() => {
+    .then(() =>
+      Post.findById(newPost._id).populate(
+        'author',
+        '_id screenName username avatar'
+      )
+    )
+    .then(post => {
+      console.log(post);
       res
         .status(200)
-        .json({ status: '200', message: 'sending has succed', post: newPost });
+        .json({ status: '200', message: 'sending has succed', post });
     })
     .catch(err => next(err));
 };

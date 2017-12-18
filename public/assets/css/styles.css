@@ -192,6 +192,7 @@ section h1 {
 .post-item {
   background: #fff;
   border-bottom: 1px solid;
+  min-height: 100px;
 }
 
 .post-item-header a {
@@ -199,16 +200,21 @@ section h1 {
 }
 
 .post-item-header img {
-  width: 70px;
+  width: 64px;
+  height: 64px;
   position: absolute;
   left: -80px;
 }
 
-.posts.list .content span {
+/* .posts.list .content span {
   display: block;
+} */
+
+.post-item .date {
+  margin-left: 10px
 }
 
-.posts-list .post-screen-name {
+.post-item .post-screen-name {
   font-weight: 600;
   color: #000;
   margin-right: 5px;

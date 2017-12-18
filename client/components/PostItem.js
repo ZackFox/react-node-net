@@ -11,13 +11,15 @@ export default props => {
             <span className="post-screen-name">{author.screenName}</span>
             <span className="post-user-name">@{author.username}</span>
           </a>
-          <span className="date">{createTime}</span>
+          <span className="date">
+            {new Date(createTime).toLocaleString('ru-RU')}
+          </span>
         </div>
         <div className="post-item-text">
           <p>{text}</p>
         </div>
         <div className="post-item-footer">
-          <a href={`/`}> разболтать всем </a>
+          {/* <a href={`/`}>разболтать</a> */}
         </div>
       </div>
     </li>
